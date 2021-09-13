@@ -82,7 +82,7 @@
       <alias name='virtio-serial0'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x05' function='0x0'/>
     </controller>
-    {% if kvm_network == "bridge" %}
+    {% if kvm_network == "bridged" %}
     <interface type='bridge'>
       <source network='bridged-network' bridge='br0'/>
     {% else %}
