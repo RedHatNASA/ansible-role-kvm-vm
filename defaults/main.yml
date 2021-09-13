@@ -4,7 +4,7 @@
 base_img: rhel7.9.qcow2
 wait_time: 60
 bridge_network: 192.168.1.*
-kvm_network: bridge
+kvm_network:
 
 vm_cpus: 2
 vm_mem: 2

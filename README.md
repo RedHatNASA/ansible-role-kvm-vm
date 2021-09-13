@@ -25,13 +25,11 @@ Role Variables
 Example Playbook
 ----------------
 
-    *Provision a VM*
     - hosts: kvm-host
       tags: deploy
       roles:
         - ansible-role-kvm-vm
 
-    *Deprovision a VM*
     - hosts: kvm-host
       tags: destroy
       roles:
