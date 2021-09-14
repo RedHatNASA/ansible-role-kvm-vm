@@ -56,23 +56,14 @@
   changed_when: false
   register: bridge_vm_ip
   with_items: "{{ virtual_machines }}"
-  when: '"bridge" == kvm_network' 
-
-- name: set fact for proxy ssh
-  set_fact:
-    ansible_ssh_common_args: '-o ProxyCommand="ssh -i /var/lib/awx/.ssh/jumpserver.pem -o StrictHostKeyChecking=no -W %h:%p -q mtipton@jumpserver"'
-  when: '"" == kvm_network and item.stdout is defined'
-  delegate_to: "{{ item.stdout }}"
-  with_items: 
-    - "{{ vm_ip.results }}"
-    - "{{ bridge_vm_ip.results }}"
+  when: '"bridged" == kvm_network' 
 
 - name: set vm hostname
   hostname:
     name: "{{ item.item }}" 
     use: systemd
   delegate_to: "{{ item.stdout }}"
-  when: item.stdout is defined
+  when: '"bridged" == kvm_network and item.stdout is defined'
   with_items: 
     - "{{ vm_ip.results }}"
     - "{{ bridge_vm_ip.results }}"
@@ -84,4 +75,4 @@
   with_items: 
     - "{{ vm_ip.results }}"
     - "{{ bridge_vm_ip.results }}"
-  when: hostname.changed and item.stdout is defined
+  when: '"bridged" == kvm_network and hostname.changed and item.stdout is defined'
