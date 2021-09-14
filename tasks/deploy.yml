@@ -40,9 +40,9 @@
   when: start_vm.changed
 
 - name: scan ip range with nmap
-  shell: "IP=`nmap -sn '{{ bridge_network | default('192.168.122.*', true) }}' | grep 'Nmap scan' | awk '{print$5}'` ; for i in $IP ; do ping $i -c 1 ; done"
+  shell: "IP=`nmap -sn '{{ bridge_network }}' | grep 'Nmap scan' | awk '{print$5}'` ; for i in $IP ; do ping $i -c 1 ; done"
   changed_when: false
-  when: start_vm.changed and '"" == kvm_network'
+  when: start_vm.changed and '"bridged" == kvm_network'
 
 - name: get ip of vm
   shell: virsh domifaddr "{{ item }}" | awk '{ print $4 }' | tail -2 | head -1 | cut -f 1 -d "/"
